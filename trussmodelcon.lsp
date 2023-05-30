@@ -16,74 +16,74 @@
 		)
 		
 		;set the values of the edit_boxes to their previous values, if there is one
-		(if (= Hstrtruss nil)
-			(action_tile "H" "(setq Hstrtruss $value)")
-			(set_tile "H" Hstrtruss)
+		(if (= Hstrtrusscon nil)
+			(action_tile "H" "(setq Hstrtrusscon $value)")
+			(set_tile "H" Hstrtrusscon)
 		)
-		(if (= H0strtruss nil)
-			(action_tile "H0" "(setq H0strtruss $value)")
-			(set_tile "H0" H0strtruss)
+		(if (= H0strtrusscon nil)
+			(action_tile "H0" "(setq H0strtrusscon $value)")
+			(set_tile "H0" H0strtrusscon)
 		)
-		(if (= nstrtruss nil)
-			(action_tile "n" "(setq nstrtruss $value)")
-			(set_tile "n" nstrtruss)
+		(if (= nstrtrusscon nil)
+			(action_tile "n" "(setq nstrtrusscon $value)")
+			(set_tile "n" nstrtrusscon)
 		)
-		(if (= astrtruss nil)
-			(action_tile "a" "(setq astrtruss $value)")
-			(set_tile "a" astrtruss)
+		(if (= astrtrusscon nil)
+			(action_tile "a" "(setq astrtrusscon $value)")
+			(set_tile "a" astrtrusscon)
 		)
-		(if (= bstrtruss nil)
-			(action_tile "b" "(setq bstrtruss $value)")
-			(set_tile "b" bstrtruss)
+		(if (= bstrtrusscon nil)
+			(action_tile "b" "(setq bstrtrusscon $value)")
+			(set_tile "b" bstrtrusscon)
 		)
-		(if (= xstrtruss nil)
+		(if (= xstrtrusscon nil)
 			(progn
-				(action_tile "x" "(setq xstrtruss $value)")
-				(setq xstrtruss "0")
+				(action_tile "x" "(setq xstrtrusscon $value)")
+				(setq xstrtrusscon "0")
 			)
-			(set_tile "x" xstrtruss)
+			(set_tile "x" xstrtrusscon)
 		)
-		(if (= ystrtruss nil)
+		(if (= ystrtrusscon nil)
 			(progn
-				(action_tile "y" "(setq ystrtruss $value)")
-				(setq ystrtruss "0")
+				(action_tile "y" "(setq ystrtrusscon $value)")
+				(setq ystrtrusscon "0")
 			)
-			(set_tile "y" ystrtruss)
+			(set_tile "y" ystrtrusscon)
 		)
-		;(if (= zstrtruss nil)
+		;(if (= zstrtrusscon nil)
 		;	(progn
-		;		(action_tile "z" "(setq zstrtruss $value)")
-		;		(setq zstrtruss "0")
+		;		(action_tile "z" "(setq zstrtrusscon $value)")
+		;		(setq zstrtrusscon "0")
 		;	)
-		;	(set_tile "z" zstrtruss)
+		;	(set_tile "z" zstrtrusscon)
 		;)
 
 		;update string values with the values in the boxes, if they've been changed
-		(action_tile "H" "(setq Hstrtruss $value)")
-		(action_tile "H0" "(setq H0strtruss $value)") 
-		(action_tile "n" "(setq nstrtruss $value)")
-		(action_tile "a" "(setq astrtruss $value)")
-		(action_tile "b" "(setq bstrtruss $value)")
-		(action_tile "x" "(setq xstrtruss $value)")
-		(action_tile "y" "(setq ystrtruss $value)") 
-		;(action_tile "z" "(setq zstrtruss $value)") 
+		(action_tile "H" "(setq Hstrtrusscon $value)")
+		(action_tile "H0" "(setq H0strtrusscon $value)") 
+		(action_tile "n" "(setq nstrtrusscon $value)")
+		(action_tile "a" "(setq astrtrusscon $value)")
+		(action_tile "b" "(setq bstrtrusscon $value)")
+		(action_tile "x" "(setq xstrtrusscon $value)")
+		(action_tile "y" "(setq ystrtrusscon $value)") 
+		;(action_tile "z" "(setq zstrtrusscon $value)") 
 
 		;set the insertion point to what is in the x and y boxes
 		(setq insert (list (distof (get_tile "x")) (distof (get_tile "y")))) ;(distof (get_tile "z"))))
 
 		;remember which radio button was chosen last time
 		(cond
-			((= chir_truss nil) (setq chir_truss "cw"))
-			((= chir_truss "cw") (set_tile "cw" "1"))
-			((= chir_truss "ccw") (set_tile "ccw" "1"))
+			((= chir_trusscon nil) (setq chir_trusscon "cw"))
+			((= chir_trusscon "cw") (set_tile "cw" "1"))
+			((= chir_trusscon "ccw") (set_tile "ccw" "1"))
 		)
 
 		;radio buttons
-		(action_tile "cw" "(setq chir_truss \"cw\")")
-		(action_tile "ccw" "(setq chir_truss \"ccw\")")
+		(action_tile "cw" "(setq chir_trusscon \"cw\")")
+		(action_tile "ccw" "(setq chir_trusscon \"ccw\")")
 
-		;in order for the user to be able to press ok, make sure the design constrtrussaints are not violated and that the parameter types are correct
-		(action_tile "accept" "(checktypestruss)")
+		;in order for the user to be able to press ok, make sure the design constraints are not violated and that the parameter types are correct
+		(action_tile "accept" "(checktypestrusscon)")
 
 		;set canceled to true if the dialog was canceled so we dont do unecessary calculations + drawings
 		(action_tile "cancel" "(setq canceled T)")
@@ -99,9 +99,9 @@
 			;get the point from the user
 			(progn
 				(setq insert (getpoint))
-				(setq xstrtruss (rtos (car insert)))
-				(setq ystrtruss (rtos (cadr insert)))
-				;(setq zstrtruss (rtos (caddr insert)))
+				(setq xstrtrusscon (rtos (car insert)))
+				(setq ystrtrusscon (rtos (cadr insert)))
+				;(setq zstrtrusscon (rtos (caddr insert)))
 			)
 		)
 	)
@@ -113,14 +113,14 @@
 		(setq canceled nil)
 		(progn
 			;convert string values to reals or ints
-			(setq H (distof Hstrtruss))
-			(setq H0 (distof H0strtruss))
-			(setq n (atoi nstrtruss))
-			(setq a (distof astrtruss))
-			(setq b (distof bstrtruss))
+			(setq H (distof Hstrtrusscon))
+			(setq H0 (distof H0strtrusscon))
+			(setq n (atoi nstrtrusscon))
+			(setq a (distof astrtrusscon))
+			(setq b (distof bstrtrusscon))
 		
 			;get the latest point from the box
-			(setq insert (list (distof xstrtruss) (distof ystrtruss))) ;(distof zstrtruss)))
+			(setq insert (list (distof xstrtrusscon) (distof ystrtrusscon) 0)) ;(distof zstrtrusscon)))
 
 			(print H)
 			(print H0)
@@ -128,10 +128,10 @@
 			(print a)
 			(print b)
 			(print insert)
-			(print chir_truss)
+			(print chir_trusscon)
 
 			;call appropriate drawing routine based on crease pattern type
-			(drawtrussmodel H H0 n a b insert chir_truss)
+			(drawtrussmodelcon H H0 n a b insert chir_trusscon)
 		)
 	)
 	(princ)

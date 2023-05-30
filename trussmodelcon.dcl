@@ -1,4 +1,4 @@
-trussmodelcon : dialog { label = "Truss Model";
+trussmodelcon : dialog { label = "Conical Truss Model";
 
 	// would love to add some color to this situation, primarily to make it easier to differentiate between sets of options, but also bc I think it would look nicer
 
