@@ -1,4 +1,4 @@
-(defun makeplate (insertp b param n p1 p2 / bar_radius hole_radius hole_depth plate_thickness 
+(defun makeplate (insertp b param n d_r d_c p1 p2 / bar_radius hole_radius hole_depth plate_thickness 
 											  insert2 rad halfwindowside bottomleft toprightrhole cyl poly holes holept plate bottomcirclept negbottomcirclept topcirclept)
 
 	;zoom to drawing area (with margin room)
@@ -14,17 +14,18 @@
 	(print "zoom")
 
 	;plate parameters
-	(setq hole_radius 0.03)
-	(setq hole_depth 0.04)
-	(setq plate_thickness 0.06)
-	(setq bar_radius (/ plate_thickness 2))
+	(setq hole_radius 0.03) ;magnet holes
+	(setq hole_depth 0.04) ;magnet holes
+	(setq cyl_radius (/ d_c 2)) ;middle hole
+	(setq bar_radius (/ d_r 2))
+	(setq plate_thickness d_r)
+	
 	(setq insert2 (list (car insertp) (cadr insertp) (- (caddr insertp) (/ plate_thickness 2))))
 	(print "params")
 
 	;make the top and bottom plates 
-	(setq rhole (* (/ 2.0 3.0) b))
 	;middle cylinder
-	(command "_circle" insert2 rhole)
+	(command "_circle" insert2 cyl_radius)
 	(command "_extrude" (entlast) "" 0.1)
 	(setq cyl (ssget "L"))
 	(print "cyls")
@@ -43,9 +44,10 @@
 
 	;make a selection set for all the cylinders (that will become magnet holes)
 	(setq holes (ssadd))
-	(setq holept (list (- (car p1) 0.1) (cadr p1) (+ (caddr insertp) (- (- plate_thickness hole_depth) (/ plate_thickness 2)))))
+	(setq beta (- (/ pi 2) param)) ;half an internal angle
+	(setq holept (list (+ (car insertp) (- rad (* hole_radius (csc beta)))) (cadr insertp) (+ (caddr insertp) (- (- plate_thickness hole_depth) (/ plate_thickness 2)))))
 	(command "_circle" holept hole_radius)
-	(command "_extrude" (entlast) "" 0.1)
+	(command "_extrude" (entlast) "" (* 2 plate_thickness))
 	(ssadd (entlast) holes)
 	(repeat (- n 1)
 		(command "rotate" (entlast) "" insertp "C" (/ 360.0 n))
@@ -54,11 +56,11 @@
 	;turn the layer with the polyogn back on
 	(command "_layer" "on" "polylay" "")
 
-	;extrude the plate, move such that the xy plane halves it laterally, and subtract the holes
+	;extrude the plate, move such that the xy plane halves it laterally
 	(command "_extrude" poly "" plate_thickness)
-	(command "_move" (entlast) "" insertp insert2)
-	(command "_subtract" (entlast) "" cyl holes"")
 	(setq plate (ssget "L"))
+	(command "_move" (entlast) "" insertp insert2)
+	
 
 	;make cyclinders all around the polygon
 	(command "_cylinder" p1 bar_radius "A" p2)
@@ -76,6 +78,14 @@
 		(ssadd (entlast) plate)
 	)
 
+	(command "_union" plate "")
+	(setq liza jeffery)
+	(print "HALLO")
+
+	;and subtract the holes
+	(command "_subtract" (entlast) "" cyl holes"")
+	
+
 	;fillet center hole edges 
 	(command "_view" "BOTTOM")
 	(command "_zoom" negbottomleft negtopright)
@@ -88,5 +98,6 @@
 	(command "_filletedge" "L" topcirclept "" "R" (/ plate_thickness 2) "" "")
 
 	(command "_union" plate "")
+
 
 )
